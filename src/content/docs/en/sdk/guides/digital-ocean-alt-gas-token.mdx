@@ -596,7 +596,6 @@ If you have configured a domain for Grafana in the previous steps, you can acces
 
     Use the following command to update Alertmanager:
     ```
-    helm upgrade -i scroll-monitor oci://ghcr.io/scroll-tech/scroll-sdk/helm/scroll-monitor -n $(NAMESPACE) \
-        --version=0.0.4 \
+    helm upgrade --reuse-values -i scroll-monitor oci://ghcr.io/scroll-tech/scroll-sdk/helm/scroll-monitor -n $(NAMESPACE) \
         --values ./values/alert-manager.yaml
     ```
