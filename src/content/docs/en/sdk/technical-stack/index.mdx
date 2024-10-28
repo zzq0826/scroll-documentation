@@ -19,35 +19,43 @@ The articles in this section will be focus on the various parts a Scroll SDK cha
 
 ### Scroll SDK Repo & Charts
 
-Scroll SDK can be found [on GitHub](https://github.com/scroll-tech/scroll-sdk). The SDK built around Kubernetes and is designed to be easy to launch and maintain for anyone familiar with Kubernetes and Helm.
+Scroll SDK can be found [on GitHub](https://github.com/scroll-tech/scroll-sdk). The SDK built is leveraging Kubernetes and is designed to be easy to launch and maintain for anyone familiar with Kubernetes and Helm.
 
 The repo consists of these major components:
 1. Example config files for preparing your network *(see [Configuration](/en/sdk/technical-stack/configuration))*
 1. Helm charts for deploying the necessary services and contracts *(see [Services](/en/sdk/technical-stack/services))*
-1. A docker image for building the correct configuration files for these services *(see [Smart Contracts](/en/sdk/technical-stack/contracts))*
-1. An Ansible playbook for setting up a zk prover *(see [Proof Generation](/en/sdk/technical-stack/proof-generation))*
+1. A docker image for building the correct configuration files for these services and gathering smart contract addresses before deployment *(see [Smart Contracts](/en/sdk/technical-stack/contracts))*
+1. An Ansible playbook for setting up a zk prover if not using a third party proof generation service *(see [Proof Generation](/en/sdk/technical-stack/proof-generation))*
 
 <Aside type="tip">
-Although Scroll SDK is somewhat opinionated towards Kubernetes, it is designed to be easy to modify and extend, and every chart also lists the underlying Docker image and container commands.
+Although Scroll SDK is somewhat opinionated towards Kubernetes, it is designed to be easy to modify and extend. Every chart lists the underlying Docker image and container commands.
 </Aside>
 
 ### Scroll SDK CLI
 
-Additionally, a [scroll-sdk-cli](https://github.com/scroll-tech/scroll-sdk-cli) tool is available to help with common automations and testing tasks.
+Additionally, the [scroll-sdk-cli](https://github.com/scroll-tech/scroll-sdk-cli) tool is available to help with common automations and testing tasks. It greatly simplifies the process of creating a new Scroll SDK chain and includes a number of helpful commands for interacting with your chain.
 
 It also supports custom plugins using the [oclif framework](https://oclif.com/docs/plugins).
+
+## Scroll Proving SDK
+
+The Scroll Proving SDK is a Rust crate for integrating Scroll SDK support into your prover services. The proof generation providers should use this SDK to build their own Helm charts, allowing SDK operators to out-source proof generation.
+
+For an example service built using `scroll-proving-sdk`, see the `cloud.rs` example in the[Scroll Proving SDK](https://github.com/scroll-tech/scroll-proving-sdk/blob/haoyu/sindri_tokio/examples/cloud.rs) repo.
+
+{/* TODO: check if this branch has been merged into main */}
 
 ## Deployment Process
 
 Scroll SDK has two deployment options: a local devnet and a production deployment.
 
-When deploying a local Devnet, all services are deployed by a single "chart". Configuration is minimal, and the deployment includes additional services like a hosting a database in the cluster. We assume users are working inside the `devnet` directory of a `scroll-sdk` clone.
+When deploying a local Devnet, all services are deployed by a single "chart". Configuration is minimal, and the deployment includes additional services like a hosting a database in the cluster. We assume users are working inside the `devnet` directory of a `scroll-sdk` cloned repo.
 
-In production deployments, each service is an independent chart. This is often more natural for tight control over upgrades and configuration. Production deployments assume that services like a database or monitoring stacks will be provided by the chain operator. Because of the additional modularity and flexibility, additional configuration is needed and some knowledge of Kubernetes may be required. We also assume users will create a new repo for storing their production workflow and configuration files.
+In production deployments, each service is deployed as an independent chart. This is often more natural for tight control over upgrades and configuration. Production deployments assume that services like a database or monitoring stacks will be provided by the chain operator. Because of the additional modularity and flexibility, additional configuration is needed and some knowledge of Kubernetes is required. We also assume users will create a new repo for storing their production workflow and configuration files.
 
 ### Devnet
 
-For a full devnet walkthrough, see the [Devnet Deployment](/en/sdk/guides/devnet-deployment) guide.
+For a full devnet deployment walkthrough, see the [Devnet Deployment](/en/sdk/guides/devnet-deployment) guide.
 
 #### PreReqs
 
@@ -118,4 +126,4 @@ In addition, you'll want to prepare the following items:
 - A Kubernetes Ingress Controller (i.e. Nginx)
 - A Secret Store for storing sensitive information (i.e. AWS Secrets, Hashicorp Vault) and a way to access it from Kubernetes using [External Secrets](https://external-secrets.io/latest/)
 
-More information on choosing and setting up these services for various cloud providers will be provided in the [Guides](/en/sdk/guides) section.
+More information on choosing and setting up these services for various cloud providers is provided in the [Guides](/en/sdk/guides) section.

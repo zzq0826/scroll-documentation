@@ -11,7 +11,7 @@ import Aside from "../../../../../components/Aside.astro"
 
 Initial change configuration is made by modifying `config.toml`. All other config files are auto-generated from this file. For automating changes to your configuration for production deployments, see the [scroll-sdk-cli](/en/sdk/technical-stack/scroll-sdk-cli) tool.
 
-For new production deployments, we recommend using the [example template](https://github.com/scroll-tech/scroll-sdk/blob/develop/examples/config.toml.example).
+For new production deployments, we recommend using the [example template](https://github.com/scroll-tech/scroll-sdk/blob/develop/examples/config.toml.example), which the `scroll-sdk-cli` tool is designed to work with. You can reference the default devnet configuration [here](https://github.com/scroll-tech/scroll-sdk/blob/develop/charts/scroll-sdk/config.toml).
 
 <Aside type="note">
 Although most values don't need modified between subsequent deployments, you may want change the contracts section's `DEPLOYMENT_SALT` in order to have newly initialized contracts on your basechain.
@@ -21,6 +21,8 @@ Although most values don't need modified between subsequent deployments, you may
 Local Devnet defaults shown.
 
 ### General
+
+Contained in the `[general]` section.
 
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
@@ -35,6 +37,10 @@ Local Devnet defaults shown.
 
 ### Accounts
 
+Contained in the `[accounts]` section.
+
+{/* TODO: Add link to where these roles are documented. */}
+
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
 | DEPLOYER_PRIVATE_KEY | Private key for the deployer account. | `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` |
@@ -43,13 +49,15 @@ Local Devnet defaults shown.
 | L1_GAS_ORACLE_SENDER_PRIVATE_KEY | Private key for the L1 gas oracle sender account. | `0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6` |
 | L2_GAS_ORACLE_SENDER_PRIVATE_KEY | Private key for the L2 gas oracle sender account. | `0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80` |
 | DEPLOYER_ADDR | Address of the deployer account. | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266` |
-| OWNER_ADDR | Address of the owner account. | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266` |
+| OWNER_ADDR | Address of the owner account. Should be a multi-sig wallet. | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266` |
 | L1_COMMIT_SENDER_ADDR | Address of the L1 commit sender account. | `0x70997970C51812dc3A010C7d01b50e0d17dc79C8` |
 | L1_FINALIZE_SENDER_ADDR | Address of the L1 finalize sender account. | `0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC` |
 | L1_GAS_ORACLE_SENDER_ADDR | Address of the L1 gas oracle sender account. | `0x90F79bf6EB2c4f870365E785982E1f101E93b906` |
 | L2_GAS_ORACLE_SENDER_ADDR | Address of the L2 gas oracle sender account. | `0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266` |
 
 ### Database
+
+Contained in the `[db]` section.
 
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
@@ -63,7 +71,57 @@ Local Devnet defaults shown.
 | ROLLUP_NODE_DB_CONNECTION_STRING | Connection string for the Rollup Node database. | `postgres://postgres:qwerty12345@postgresql:5432/scroll?sslmode=disable` |
 | ROLLUP_EXPLORER_DB_CONNECTION_STRING | Connection string for the Rollup Explorer database. | `""` |
 
+### Gas Token
+
+Contained in the `[gas-token]` section.
+
+{/* TODO: Add link to where these modes are documented. */}
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| ALTERNATIVE_GAS_TOKEN_ENABLED | Enables using an alternative gas token instead of ETH. | false |
+| EXAMPLE_GAS_TOKEN_DECIMAL | Decimal places for the example gas token. | 6 |
+| L1_GAS_TOKEN | Address of the L1 ERC20 gas token contract. | `0x68a041e7c20Afa4784b5d9C63246c89545Ac0E66` |
+| GAS_ORACLE_INCORPORATE_TOKEN_EXCHANGE_RATE_ENANBLED | Enables incorporating token exchange rates in gas oracle. | false |
+| EXCHANGE_RATE_UPDATE_MODE | Mode for updating exchange rates. | `Fixed` |
+| FIXED_EXCHANGE_RATE | Fixed exchange rate value when using Fixed mode. | `0.01` |
+| TOKEN_SYMBOL_PAIR | Symbol pair for the token exchange. | `UNIETH` |
+
+### Sequencer
+
+Contained in the `[sequencer]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| L2_GETH_STATIC_PEERS | Static peers for L2 Geth nodes, as an array of sequencer enode URLs. | `[""]` |
+| L2GETH_SIGNER_ADDRESS | Address of the primary sequencer's L2 Geth signer account. | `""` |
+| L2GETH_KEYSTORE | Keystore file for the primary sequencer's L2 Geth signer account. | `""` |
+| L2GETH_PASSWORD | Password for the primary sequencer's L2 Geth keystore. | `""` |
+| L2GETH_NODEKEY | Node key for the primary sequencer's L2 Geth node. | `""` |
+
+### Additional Sequencer Instances
+
+Contained in the `[sequencer.sequencer-1]` section and incrementing for each additional sequencer instance.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| L2GETH_SIGNER_ADDRESS | Address of the L2 Geth signer account for this sequencer instance. | `0xE8fFE623460e54e546E54B1a0C93A968aF6295bb` |
+| L2GETH_KEYSTORE | Keystore file for this sequencer instance's signer account. | `{"address":"e8ffe623460e54e546e54b1a0c93a968af6295bb","id":"deef9b4a-a085-4f02-af36-afaa19da4132",...}` |
+| L2GETH_PASSWORD | Password for this sequencer instance's keystore. | `second` |
+| L2GETH_NODEKEY | Node key for this sequencer instance. | `bd347890c9d308957207379679e8ed548d015ef05588c228d13f92ea0288a35b` |
+
+### Bootnode Instances
+
+Contained in the `[bootnode.bootnode-0]` section and incrementing for each additional bootnode instance.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| L2GETH_NODEKEY | Node key for this bootnode instance. | `""` |
+
+
 ### Rollup
+
+Contained in the `[rollup]` section.
 
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
@@ -75,41 +133,9 @@ Local Devnet defaults shown.
 | TEST_ENV_MOCK_FINALIZE_ENABLED | Enables mock finalization for testing environments. | true |
 | TEST_ENV_MOCK_FINALIZE_TIMEOUT_SEC | Sets the timeout for mock finalization in seconds. | 300 |
 
-### Genesis
-
-| Config Variable | Description | Default Value |
-|-----------------|-------------|---------------|
-| L2_MAX_ETH_SUPPLY | Sets the maximum ETH supply for the L2 network. | `226156424291633194186662080095093570025917938800079226639565593765455331328` |
-| L2_DEPLOYER_INITIAL_BALANCE | Sets the initial balance for the L2 deployer account. | 1000000000000000000 |
-
-### Contracts
-
-| Config Variable | Description | Default Value |
-|-----------------|-------------|---------------|
-| DEPLOYMENT_SALT | Salt used for contract deployment. | `salt-000` |
-| L1_FEE_VAULT_ADDR | Address of the L1 fee vault contract. | `0x0000000000000000000000000000000000000001` |
-| L1_PLONK_VERIFIER_ADDR | Address of the L1 PLONK verifier contract. | `0x0000000000000000000000000000000000000001` |
-
-### Contracts Overrides
-
-| Config Variable | Description | Default Value |
-|-----------------|-------------|---------------|
-| L2_MESSAGE_QUEUE | Override address for the L2 message queue contract. | `0x5300000000000000000000000000000000000000` |
-| L1_GAS_PRICE_ORACLE | Override address for the L1 gas price oracle contract. | `0x5300000000000000000000000000000000000002` |
-| L2_WHITELIST | Override address for the L2 whitelist contract. | `0x5300000000000000000000000000000000000003` |
-| L2_WETH | Override address for the L2 WETH contract. | `0x5300000000000000000000000000000000000004` |
-| L2_TX_FEE_VAULT | Override address for the L2 transaction fee vault contract. | `0x5300000000000000000000000000000000000005` |
-
-### Coordinator
-
-| Config Variable | Description | Default Value |
-|-----------------|-------------|---------------|
-| CHUNK_COLLECTION_TIME_SEC | Time in seconds for chunk collection. | 3600 |
-| BATCH_COLLECTION_TIME_SEC | Time in seconds for batch collection. | 1800 |
-| BUNDLE_COLLECTION_TIME_SEC | Time in seconds for bundle collection. | 600 |
-| COORDINATOR_JWT_SECRET_KEY | Secret key used for JWT authentication in the coordinator. | `e788b62d39254928a821ac1c76b274a8c835aa1e20ecfb6f50eb10e87847de44` |
-
 ### Frontend
+
+Contained in the `[frontend]` section.
 
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
@@ -122,7 +148,54 @@ Local Devnet defaults shown.
 | ADMIN_SYSTEM_DASHBOARD_URI | URI for the Admin System Dashboard. | `http://admin-system-dashboard.scrollsdk` |
 | GRAFANA_URI | URI for Grafana. | `http://grafana.scrollsdk` |
 
+### Genesis
+
+Contained in the `[genesis]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| L2_MAX_ETH_SUPPLY | Sets the maximum ETH supply for the L2 network. | `226156424291633194186662080095093570025917938800079226639565593765455331328` |
+| L2_DEPLOYER_INITIAL_BALANCE | Sets the initial balance for the L2 deployer account. | 1000000000000000000 |
+
+### Contracts
+
+Contained in the `[contracts]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| DEPLOYMENT_SALT | Salt used for contract deployment. | `salt-000` |
+| L1_FEE_VAULT_ADDR | Address of the L1 fee vault contract. | `0x0000000000000000000000000000000000000001` |
+| L1_PLONK_VERIFIER_ADDR | Address of the L1 PLONK verifier contract. | `0x0000000000000000000000000000000000000001` |
+
+### Contracts Overrides
+
+Contained in the `[contracts.overrides]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| L2_MESSAGE_QUEUE | Override address for the L2 message queue contract. | `0x5300000000000000000000000000000000000000` |
+| L1_GAS_PRICE_ORACLE | Override address for the L1 gas price oracle contract. | `0x5300000000000000000000000000000000000002` |
+| L2_WHITELIST | Override address for the L2 whitelist contract. | `0x5300000000000000000000000000000000000003` |
+| L2_WETH | Override address for the L2 WETH contract. | `0x5300000000000000000000000000000000000004` |
+| L2_TX_FEE_VAULT | Override address for the L2 transaction fee vault contract. | `0x5300000000000000000000000000000000000005` |
+
+### Coordinator
+
+Contained in the `[coordinator]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| CHUNK_COLLECTION_TIME_SEC | Time in seconds for chunk collection. | 3600 |
+| BATCH_COLLECTION_TIME_SEC | Time in seconds for batch collection. | 1800 |
+| BUNDLE_COLLECTION_TIME_SEC | Time in seconds for bundle collection. | 600 |
+| COORDINATOR_JWT_SECRET_KEY | Secret key used for JWT authentication in the coordinator. | `e788b62d39254928a821ac1c76b274a8c835aa1e20ecfb6f50eb10e87847de44` |
+
+
 ### Ingress
+
+Contained in the `[ingress]` section.
+
+Ingress values are not used by the configuration generation scripts, but used by the `scroll-sdk-cli` to configure hosts and TLS settings in the values files for each chart.
 
 | Config Variable | Description | Default Value |
 |-----------------|-------------|---------------|
@@ -132,9 +205,13 @@ Local Devnet defaults shown.
 | COORDINATOR_API_HOST | Host for the Coordinator API. | `coordinator-api.scrollsdk` |
 | RPC_GATEWAY_HOST | Host for the RPC Gateway. | `l2-rpc.scrollsdk` |
 | BLOCKSCOUT_HOST | Host for Blockscout. | `blockscout.scrollsdk` |
+| BLOCKSCOUT_BACKEND_HOST | Host for Blockscout Backend. | `blockscout-backend.scrollsdk` |
 | ADMIN_SYSTEM_DASHBOARD_HOST | Host for the Admin System Dashboard. | `admin-system-dashboard.scrollsdk` |
 | L1_DEVNET_HOST | Host for the L1 Devnet. | `l1-devnet.scrollsdk` |
 | L1_EXPLORER_HOST | Host for the L1 Explorer. | `l1-explorer.scrollsdk` |
+| GRAFANA_HOST | Host for the Grafana frontend. | `grafana.scrollsdk` |
+
+{/* TODO: Check Blockscout backend host after PR is merged. */}
 
 ## Sepolia Deployment
 
@@ -144,7 +221,7 @@ The `scroll-sdk-cli` tool has a command for generating new accounts setting the 
 
 ### Generating Accounts
 
-To generate new test accounts quickly, run the following command on a machine with Foundry installed.
+To generate new test accounts quickly without using the `scroll-sdk-cli`, run the following command on a machine with Foundry installed.
 
 ```bash
 cast wallet new --number 6 --json
