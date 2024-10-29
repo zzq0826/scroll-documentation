@@ -13,7 +13,7 @@ import Aside from "../../../../../components/Aside.astro"
 
 ## Overview
 
-Contracts deployed for a Scroll SDK chain include both contracts on the L1 (or basechain), and contracts deployed on the L2. Additionally, the L2 has "pre-deployed" contracts, matching those on [Scroll](/en/developers/scroll-contracts#l2-predeploys).
+Contracts deployed for a Scroll SDK chain include both contracts on the L1 (or basechain), and contracts deployed on the L2 (or SDK chain). Additionally, the L2 has "pre-deployed" contracts, matching those on [Scroll](/en/developers/scroll-contracts#l2-predeploys).
 
 ## Primary Contracts
 
@@ -49,30 +49,23 @@ Although there are many contracts deployed during a new chain deployment, the mo
 
 ## Deployment Process
 
-All contracts are available in the [scroll-contracts repo](https://github.com/scroll-tech/scroll-contracts), and [Docker files](https://github.com/scroll-tech/scroll-contracts/tree/feat-deterministic-deployment/docker) and [Foundry scripts](https://github.com/scroll-tech/scroll-contracts/tree/feat-deterministic-deployment/scripts/deterministic) used for deployment available in the `feat-deterministic-deployment` branch.
+Contracts are deployed by the `contracts` chart. Deterministic addresses are used, with a salt used to generate the address of the contract. For every new deployment, a unique salt should be configured in `config.toml`.
 
-Contracts are deployed using deterministic addresses, with a salt used to generate the address of the contract. For every new deployment, a unique salt should be configured in `config.toml`.
-
-During deployment, a simulation is first done to determine what address a contract will deploy to. This step is done during the creation the config files for each service's chart and when the `genesis.json` file is created. Contract addresses are then used to set each service's configuration (see [`gen-configs.sh`](https://github.com/scroll-tech/scroll-contracts/blob/feat-robust-deployment/docker/scripts/gen-configs.sh)).
-
-{/* <!-- TODO: modify URL to develop branch --> */}
+During the configuration generation step, a simulation is first done to determine what address a contract will deploy to. This step is done during the creation of the config files for each service's chart and when the `genesis.json` file is created. Contract addresses are then used to set each service's configuration (see [`gen-configs.sh`](https://github.com/scroll-tech/scroll-contracts/blob/feat-robust-deployment/docker/scripts/gen-configs.sh)).
 
 Then, before the `contracts` chart is installed, you will need to fund your SDK `DEPLOYER` account to deploy all contracts on L1 and L2 using actual transactions.
 
-The `contracts` pod will connect to the cluster's RPCs and deploy the necessary contracts. 
+The `contracts` pod will connect to the L2 RPC and deploy the necessary contracts from the `DEPLOYER` account.
 
-{/* TODO: is this still true? */}
-{/* To view the complete logs from the deployment process, see the `broadcast` folder in `/charts/scroll-stack/`. */}
-
-{/* TODO: check again once we do this. */}
 <Aside type="tip">
+All contracts are available in the [scroll-contracts repo](https://github.com/scroll-tech/scroll-contracts), and [Docker files](https://github.com/scroll-tech/scroll-contracts/tree/feat-deterministic-deployment/docker) and [Foundry scripts](https://github.com/scroll-tech/scroll-contracts/tree/feat-deterministic-deployment/scripts/deterministic) used for deployment available in the `feat-deterministic-deployment` branch.
+
 For manually deploying contracts without the reliance on a docker container, please review [this guide](https://github.com/scroll-tech/scroll-contracts/blob/feat-deterministic-deployment/docs/manual-deployment.md).
-{/* TODO: Link to develop branch once merged. */}
 </Aside>
 
 ### Funding Deployment Accounts
 
-You will need to manually fund the following wallet addresses from `config.toml`:
+In production deployments, you will need to manually fund the following wallet addresses from `config.toml`:
 
 - `DEPLOYER_ADDR` *(only needs funded on L1)*
   {/* - Suggested funds: `(L1 basefee * VARIABLE * 10e-9) ETH` */}
@@ -85,11 +78,11 @@ You will need to manually fund the following wallet addresses from `config.toml`
 - `L2_GAS_ORACLE_SENDER_ADDR` *(funded after L2 chain deployment)*
   {/* - Suggested funds: `(L1 basefee * VARIABLE * 10e-9) ETH` */}
 
-{/* <!-- TODO: modify for how this works after --> */}
+{/* TODO: Consider recommending an initial funding amount. */}
 
-<Aside type="tip">
+<Aside type="tip" title="Funding L1 Devnet Accounts">
 
-To fund an L1 addresses when using Anvil, you can run the command below, replacing the first param with the address.
+To fund an L1 addresses when using Anvil in a devnet, run `scrollsdk helper fund-accounts --dev`. Or, to manually set individual account balances, you can also run the command below, replacing the first param with the address.
 
 ```bash
 curl --location 'http://l1-devnet.scrollsdk/' \
@@ -101,15 +94,18 @@ curl --location 'http://l1-devnet.scrollsdk/' \
   "id":0
 }'
 ```
+
 </Aside>
 
-<Aside type="tip">
+<Aside type="tip" title="Funding L2 Addresses">
 
 To fund an L2 address directly via the L1 bridge, you can run the command below, replacing the RPC and setting a private key of an account funded on L1 and a recipient address on L2.
 
 ```bash
 cast send --rpc-url https://rpc2.sepolia.org  --private-key "$PRIVATE_KEY" "$L1_GATEWAY_ROUTER_PROXY_ADDR" "depositETH(address,uint256,uint256)" "$L2_RECIPENT_ADDR" "1ether" "300000" --value "1.1ether"
 ```
+
+You can also use the interactive `scrollsdk helper fund-accounts --layer=2 [--private-key=<private-key>]` command to fund an L2 address, optionally passing a private key as funder.
 
 </Aside>
 
