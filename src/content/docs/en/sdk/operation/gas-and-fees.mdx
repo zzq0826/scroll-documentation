@@ -190,3 +190,48 @@ For more complicated configurations, you'll want to make manual adjustments to t
   - The minimum percentage of gas price difference to update gas oracle.
 - `alternative_gas_token_config`
   - Refer to `alternative_gas_token_config` on L1 gas oracle config above.
+
+## Security Considerations for Alternative Gas Tokens
+
+When implementing alternative gas tokens, operators should be aware of several important security considerations to prevent potential loss of funds and user errors.
+
+The contract and gas oracle changes for Scroll SDK are not used on Scroll mainnet, but have been audited by Trail of Bits.
+
+{/* TODO: Add link to audit report */}
+
+### L2 to L1 Message Queue Restrictions
+
+<Aside type="danger">
+Native tokens sent via L2 → L1 messages must be sent to the `L1GasTokenGateway` address. Sending native tokens to any other L1 address will result in permanent loss of funds.
+</Aside>
+
+The L2 Message Queue system has strict requirements for handling native token transfers:
+
+- Messages with non-zero value **must** be sent to the `L1GasTokenGateway` address
+- Messages sent to any other address with non-zero value will fail to relay on L1, resulting in burned tokens
+- Ideally, custom gateway implementations should validate destination addresses on L2 before allowing transfers
+
+### Token Decimal Scaling Issues
+
+When bridging ERC-20 tokens to be used as native L2 tokens:
+
+- Tokens are automatically scaled to 18 decimals on L2
+- Example: If using USDT (6 decimals) as gas token:
+  - 1 USDT on L1 = 1012 native tokens on L2
+  - This maintains UI display values but can affect base unit calculations
+
+<Aside type="caution">
+Alternative gas tokens are automatically scaled to 18 decimals on L2, regardless of their L1 decimal places. This can lead to calculation errors in automated systems.
+</Aside>
+
+### Contract Interface Naming
+
+<Aside type="danger">
+Gateway contract function names can be misleading when using alternative gas tokens, as they still reference "ETH" in their naming.
+</Aside>
+
+Operators should be aware of potentially confusing contract interfaces:
+
+- `L1GasTokenGateway.depositETH()` - Actually deposits ERC-20 gas tokens, not ETH
+- L2-side functions reference "ETH" even when using alternative tokens
+- `L1WrappedTokenGateway` handles wrapped ETH, not wrapped gas tokens
