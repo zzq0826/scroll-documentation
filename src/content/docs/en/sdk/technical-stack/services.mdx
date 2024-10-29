@@ -8,7 +8,6 @@ excerpt: "The various components running to support the Scroll SDK."
 ---
 
 import Aside from "../../../../../components/Aside.astro"
-import ToggleElement from "../../../../../components/ToggleElement.astro"
 
 {/* TODO: Review full page before launch */}
 
@@ -28,7 +27,7 @@ The Scroll SDK uses Helm charts and Kubernetes manifests to manage service deplo
 
 The configuration flow works like this:
 
-1. You modify the main `config.toml` file with your deployment settings
+1. Modify the main `config.toml` file with your deployment settings.
 2. The `scroll-sdk-cli` tool processes this file and generates service-specific config files
 3. These config files are mounted into the appropriate services as Kubernetes ConfigMaps
 4. Helm uses these configs along with the values files to deploy the services
@@ -48,7 +47,7 @@ The `config.toml` file is used to generate various service-specific configuratio
 
 {/* TODO: Double check if this is how devnet works. */}
 
-Each service has a number configuration values -- some quite advanced.
+Each service has a number configuration values -- some quite nuanced.
 
 In most instances, if it is not directly set or calculated from values in the `config.toml`, a sensible default is used. Occassionally, a feature most operators do not need during their initial deployment is here as well (for example LDAP configuration for the `admin-system-backend`). If you manually change these values, keep in mind that the `config.toml` processing script may overwrite your customizations -- please use git commits track changes.
 
