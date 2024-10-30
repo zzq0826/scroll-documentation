@@ -14,17 +14,11 @@ import { Tabs, TabsContent } from "../../../../../components/Tabs"
 
 ## Overview
 
-This guide should get you started with running a local Scroll SDK devnet. Additionally, it has specific asides for running is on macos.
+This guide should get you started with running a local Scroll SDK devnet. Additionally, it has specific asides for running on macOS and Ubuntu.
 
-This guide assumes you have access to the [scroll-sdk github repo](https://github.com/scroll-tech/scroll-sdk) using your local machine.
-
-We’ve written this guide because local deployments for Kubernetes clusters can be finicky.
+We've written this guide because local deployments of Kubernetes clusters can be finicky. Even the prerequisites can be tricky without help.
 
 By the end of the guide, you should have a Scroll SDK running with a block explorer, RPC, webUI, monitoring and metrics, and a local L1. These are all accessible to wallets, browsers, and applications running on your local machine.
-
-{/* <Aside type="caution">
-This guide assumes the user is using macos. Windows is not supported, and Linux flavors might require modifications.
-</Aside> */}
 
 <Aside type="caution">
 This guide does not include running the coordinator or a prover. The coordinator currently requires 20GB of RAM to run, so we disable it by default in the devnet configuration.
@@ -226,13 +220,17 @@ then, set it as a env var and run: `echo $ghcr_pat | docker login ghcr.io -u [gi
 
     Your chain is now starting! Run `kubectl get pods` to check in on their progress. In the next section we'll expose the chain to your local machine so you can interact with the stack.
 
-    <Aside type="tip">
     The install process for the various containers can take several minutes as new docker images are downloaded and services wait on others to be online to start.
-    </Aside>
 </Steps>
 
 <Aside type="tip" title="Want to test faster?">
-  If you want finalization to L1 to happen extra fast on your devnet, you set `` in `config.toml` to be X. This
+  If you want finalization to L1 to happen more quickly on your devnet, you set the following values in the `config.toml` [rollup] section:
+  - `MAX_BLOCK_IN_CHUNK`: 3
+  - `MAX_CHUNK_IN_BATCH`: 3
+  - `MAX_BATCH_IN_BUNDLE`: 3
+  - `TEST_ENV_MOCK_FINALIZE_TIMEOUT_SEC`: 10
+
+Be sure to run `make config` again before installing.
 </Aside>
 
 <Aside title="Production Workflows Differ Slightly">
@@ -457,6 +455,12 @@ To connect directly to an RPC or using MetaMask, use:
 <Aside type="caution">
 Because the devnet does not use `https`, you need to manually set these up in MetaMask. By default, MetaMask rejects auto-configuration for network rpcs over `http`.
 </Aside>
+
+## What's Next?
+
+If you're a developer, you might want to try [customizing specific sdk components](/sdk/customization).
+
+If you're looking to learn more about running a public testnet, try out a production deployment with our [Digital Ocean guide](/sdk/guides/production-deployment-digital-ocean) or our [AWS guide](/sdk/guides/production-deployment-aws).
 
 ### Helpful Commands
 
