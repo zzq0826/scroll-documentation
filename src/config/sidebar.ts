@@ -420,16 +420,16 @@ export const getSidebar = () => {
             url: formatUrl("sdk/operation/monitoring"),
           },
           {
-            title: t("sidebar.sdk.security"),
-            url: formatUrl("sdk/operation/security"),
-          },
-          {
             title: t("sidebar.sdk.upgrades"),
             url: formatUrl("sdk/operation/upgrades"),
           },
           {
             title: t("sidebar.sdk.troubleshooting"),
             url: formatUrl("sdk/operation/troubleshooting"),
+          },
+          {
+            title: t("sidebar.sdk.security"),
+            url: formatUrl("sdk/operation/security-and-recovery"),
           },
         ],
       },
