@@ -117,6 +117,11 @@ Rotating sequencer keys requires careful coordination to ensure continuous block
     geth attach /l2geth/data/geth.ipc
     ```
 
+    or, if using `kubectl`:
+    ```bash
+    kubectl exec -it l2-sequencer-0 -- geth attach /l2geth/data/geth.ipc
+    ```
+
 4. Check current active signer:
     ```bash
     clique.getSigners()
