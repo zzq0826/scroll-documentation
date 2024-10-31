@@ -390,10 +390,10 @@ export const getSidebar = () => {
             title: t("sidebar.sdk.devnetDeployment"),
             url: formatUrl("sdk/guides/devnet-deployment"),
           },
-          {
-            title: t("sidebar.sdk.productionDeployment"),
-            url: formatUrl("sdk/guides/production-deployment"),
-          },
+          // {
+          //   title: t("sidebar.sdk.productionDeployment"),
+          //   url: formatUrl("sdk/guides/production-deployment"),
+          // },
           {
             title: t("sidebar.sdk.digitalOcean"),
             url: formatUrl("sdk/guides/digital-ocean-alt-gas-token"),
