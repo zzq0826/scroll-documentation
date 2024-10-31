@@ -36,12 +36,18 @@ Though this isn't the most "sophisticated" cloud setup, it is a step more compli
 
 This guide is intended for chain owners and those that aren't DevOps professionals, to see what's involved and show the additional considerations that need to be made.
 
-Because AltGas token introduces another element of complexity, we will use it here as well.
+Because using an alternative gas token introduces another element of complexity, we will use it here as well.
 
 <Aside type="caution">
 Scroll SDK is still in development, so certain pieces of guides may see breaking changes. We hope to slow down changes soon.
 
-*Guide last updated October 8, 2024 and refers to example files from [this commit](https://github.com/scroll-tech/scroll-sdk/tree/4a4092736486664df96277565e8d14e3ce023e60).*
+*Guide last updated October 31, 2024 and refers to example files from [this commit](https://github.com/scroll-tech/scroll-sdk/tree/1dd4d02d7bff64a33783511e2d97ef24bf890a55).*
+</Aside>
+
+<Aside type="tip" title="Blockscout Issues">
+As we migrate to the Blockscout upgrade with native Scroll SDK support, we haven't yet updated the guide or CLI tool.
+
+Please be aware that Blockscout will take a few extra steps to setup without automation. We'll get this fixed soon.
 </Aside>
 
 ## Getting your machine ready
@@ -297,6 +303,12 @@ L1_GAS_TOKEN = "0xFF34B3d4Aee8ddCd6F9AFFFB6Fe49bD371b8a357"
 
 You can follow the prompt by running `scrollsdk setup gas-token`
 
+<Aside type="danger">
+The CLI tool does not yet support advanced configuration of gas token values. Please manually update `config.toml` for now. See the [Gas Token](/en/sdk/operation/gas-and-fees#alternative-gas-token) section for more information.
+</Aside>
+
+{/* TODO: Document using CLI for advanced configuration here. */}
+
 ### Generate Configuration Files
 
 Now, we'll do the last steps for generating each service's configuration files based on our values in `config.toml`.
@@ -307,19 +319,11 @@ You'll see a few prompts to update a few remaining values, like the L1 height at
 
 Now, we'll simulate contract deployment to get contract addresses and build the config files and secrets files for all SDK services. Secrets will be written to `./secrets` and config files to `./values`. If you want the config files written to a different directory, pass the `--configs-dir` flag.
 
-### Pull Charts and Move Config Files
+### Prep Charts Values
 
 Now, we need to prepare the Helm charts. We will check access to charts, review the Makefile and check the values files for any missing values.
 
-To do this, run `scrollsdk setup prep-charts`
-
-<Aside type="danger">
-If you haven't setup docker permissions for accessing the private repo, you can create a legacy token with access to the `scroll-sdk` repo and run this command:
-
-`scrollsdk setup prep-charts --github-username=[username] --github-token=[token]`
-</Aside>
-
-After pulling the charts, the CLI tool will try to auto-fill each chart's `production.yaml` file.
+To do this, run `scrollsdk setup prep-charts` and the CLI tool will try to auto-fill each chart's `production.yaml` file.
 
 You will be prompted with each update, and even flagged for empty values. Be sure to sanity check these values to make sure you didn't setup something incorrectly earlier. If you did, re-run any earlier steps, being sure to rerun the `setup configs` command before running `setup prep-charts` .
 

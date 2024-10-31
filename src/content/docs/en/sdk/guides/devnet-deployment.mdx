@@ -26,6 +26,10 @@ This guide does not include running the coordinator or a prover. The coordinator
 You can enable it in the `values.yaml` file if wanting to locally test external proof generation services. Provers need dedicated machines to run and require additional configuration.
 </Aside>
 
+<Aside type="tip" title="Blockscout Issues">
+As we migrate to the Blockscout upgrade with native Scroll SDK support, we haven't yet re-integrated the L1 explorer.
+</Aside>
+
 <ToggleElement anchor="Guide Updates">
   <div slot="title">Updates to the Guide</div>
   <span>
@@ -237,7 +241,6 @@ then, set it as a env var and run: `echo $ghcr_pat | docker login ghcr.io -u [gi
 <Aside type="tip" title="Want to test faster?">
   If you want finalization to L1 to happen more quickly on your devnet, you set the following values in the `config.toml` [rollup] section:
   - `MAX_BLOCK_IN_CHUNK`: 3
-  - `MAX_CHUNK_IN_BATCH`: 3
   - `MAX_BATCH_IN_BUNDLE`: 3
   - `TEST_ENV_MOCK_FINALIZE_TIMEOUT_SEC`: 10
 
