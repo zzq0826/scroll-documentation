@@ -26,17 +26,7 @@ In the default testnet configuration, the contracts deployed to L1 allow the `ro
 
 The rollup-node is configured to submit these after a "timeout" period if the service does not receive a valid proof. This mode doesn't require a literal "mock prover" service — if fact, even the `coordinator`, the service which typically assigns works to provers and verifies proofs before storing them for the rollup-node, is not required to run.
 
-The suggested testnet timeout for this finalization is 3600 seconds, to approximate mainnet finalization latency. To alter this behavior in Scroll SDK, set the following variables in `config.toml`:
-
-```toml
-[rollup]
-TEST_ENV_MOCK_FINALIZE_ENABLED = true
-TEST_ENV_MOCK_FINALIZE_TIMEOUT_SEC = 3600
-```
-
-These values affect the version of the contracts deployed and the config values for the `rollup-node` service.
-
-{/* TODO: The technical components above should be moved into the operating guide docs for provers, and we just answer the question above and link to specifics there. */}
+The suggested testnet timeout for this finalization is 3600 seconds, to approximate mainnet's finalization latency. To alter this behavior in Scroll SDK or learn more, see [Mock Finalization](/en/sdk/technical-stack/proof-generation#mock-finalization).
 
 ### Is Kubernetes a requirement? Do you support docker-compose, ansible, etc?
 
