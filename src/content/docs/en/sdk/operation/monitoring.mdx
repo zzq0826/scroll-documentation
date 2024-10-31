@@ -10,6 +10,7 @@ import Aside from "../../../../../components/Aside.astro"
 import ClickToZoom from "../../../../../components/ClickToZoom.astro";
 import AdminSystemDashboard from "./_images/admin-system-dashboard-batch-view.png"
 import Alertmanager from "./_images/alertmanager.png"
+import Grafana from "./_images/grafana.png"
 
 Scroll SDK provides a comprehensive monitoring system to ensure the health and performance of the network. This section provides an overview of the monitoring tools and best practices for using them.
 
@@ -31,7 +32,7 @@ We've build and made available a few Grafana dashboards for Scroll SDK chains. T
 
 You can access these from the `scroll-sdk` repo [here](https://github.com/scroll-tech/scroll-sdk/tree/develop/charts/scroll-monitor/grafana/scroll-dashboards).
 
-{/* TODO: Add a screenshot of a service dashboard. */}
+<ClickToZoom src={Grafana} alt="Rollup Node Dashboard" />
 {/* <Aside type="caution">
 Although these are configured to work out-of-the-box with the devnet deployment, you may need to make modifications if you're using your own Prometheus or Grafana configurations.
 </Aside> */}

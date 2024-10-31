@@ -68,7 +68,9 @@ You can enable it in the `values.yaml` file if wanting to locally test external 
     - `helm version`
     - `node -v`
     - `scrollsdk`
-    - Or, in one step: `scrollsdk test dependencies`
+    - Or, in one step: `scrollsdk test dependencies --dev`
+
+{/* TODO: Update the cli command to use the new `scrollsdk` install command */}
 
 </Steps>
 </Fragment>
@@ -123,6 +125,7 @@ You can enable it in the `values.yaml` file if wanting to locally test external 
     nvm install 20
     npm install -g scroll-sdk-cli
     ```
+    {/* TODO: Update the cli command to use the new `scrollsdk` install command */}
 
 7. You should now be able to open a terminal and run the following:
     - `docker -v`
@@ -131,7 +134,7 @@ You can enable it in the `values.yaml` file if wanting to locally test external 
     - `helm version`
     - `node -v`
     - `scrollsdk`
-    - Or, in one step: `scrollsdk test dependencies`
+    - Or, in one step: `scrollsdk test dependencies --dev`
 </Steps>
 </Fragment>
 </TabsContent>
@@ -253,17 +256,19 @@ Running `kubectl get ingress` should show all the domains setup within the clust
 
 ```
 ➜  scroll-sdk git:(develop) ✗ kubectl get ingress
-NAME                      CLASS   HOSTS                               ADDRESS        PORTS   AGE
-admin-system-dashboard    nginx   admin-system-dashboard.scrollsdk    192.168.49.2   80      5h3m
-blockscout                nginx   blockscout.scrollsdk                192.168.49.2   80      5h3m
-bridge-history-api        nginx   bridge-history-api.scrollsdk        192.168.49.2   80      5h3m
-frontends                 nginx   frontends.scrollsdk                 192.168.49.2   80      5h3m
-grafana                   nginx   grafana.scrollsdk                   192.168.49.2   80      5h3m
-l1-devnet                 nginx   l1-devnet.scrollsdk                 192.168.49.2   80      5h3m
-l1-explorer               nginx   l1-devnet-explorer.scrollsdk        192.168.49.2   80      5h3m
-l2-rpc                    nginx   l2-rpc.scrollsdk                    192.168.49.2   80      5h3m
-l2-rpc-websocket          nginx   l2-rpc-ws.scrollsdk                 192.168.49.2   80      5h3m
-rollup-explorer-backend   nginx   rollup-explorer-backend.scrollsdk   192.168.49.2   80      5h3m
+NAME                            CLASS   HOSTS                               ADDRESS        PORTS   AGE
+admin-system-dashboard          nginx   admin-system-dashboard.scrollsdk    192.168.49.2   80      5h3m
+blockscout-backend-ingress      nginx   blockscout-backend.scrollsdk        192.168.49.2   80      5h3m
+blockscout-frontend-ingress     nginx   blockscout.scrollsdk                192.168.49.2   80      5h3m
+bridge-history-api              nginx   bridge-history-api.scrollsdk        192.168.49.2   80      5h3m
+frontends                       nginx   frontends.scrollsdk                 192.168.49.2   80      5h3m
+grafana                         nginx   grafana.scrollsdk                   192.168.49.2   80      5h3m
+l1-devnet                       nginx   l1-devnet.scrollsdk                 192.168.49.2   80      5h3m
+l1-explorer-blockscout-ingress  nginx   l1-explorer-backend.scrollsdk       192.168.49.2   80      5h3m
+l1-explorer-frontend-ingress    nginx   l1-explorer.scrollsdk               192.168.49.2   80      5h3m
+l2-rpc                          nginx   l2-rpc.scrollsdk                    192.168.49.2   80      5h3m
+l2-rpc-websocket                nginx   l2-rpc-ws.scrollsdk                 192.168.49.2   80      5h3m
+rollup-explorer-backend         nginx   rollup-explorer-backend.scrollsdk   192.168.49.2   80      5h3m
 ```
 
 <TabsContent sharedStore="os" client:visible>
@@ -330,17 +335,18 @@ To resolve the ingress domains, we need to add the minikube IP and our service h
 3. Add the following entries to the file, replacing `192.168.49.2` with your minikube IP if different:
 
     ```
-    192.168.49.2 l1-devnet.scrollsdk
-    192.168.49.2 bridge-history.scrollsdk
-    192.168.49.2 frontends.scrollsdk
-    192.168.49.2 grafana.scrollsdk
-    192.168.49.2 l1-devnet-explorer.scrollsdk
-    192.168.49.2 l2-rpc.scrollsdk
+    192.168.49.2 admin-system-dashboard.scrollsdk
+    192.168.49.2 blockscout-backend.scrollsdk
     192.168.49.2 blockscout.scrollsdk
     192.168.49.2 bridge-history-api.scrollsdk
-    192.168.49.2 rollup-explorer-backend.scrollsdk
+    192.168.49.2 frontends.scrollsdk
+    192.168.49.2 grafana.scrollsdk
+    192.168.49.2 l1-devnet.scrollsdk
+    192.168.49.2 l1-explorer-backend.scrollsdk
+    192.168.49.2 l1-explorer.scrollsdk
+    192.168.49.2 l2-rpc.scrollsdk
     192.168.49.2 l2-rpc-ws.scrollsdk
-    192.168.49.2 admin-system-dashboard.scrollsdk
+    192.168.49.2 rollup-explorer-backend.scrollsdk
     ```
 
 4. Save the file by pressing `Ctrl+X`, then `Y`, then `Enter`.
