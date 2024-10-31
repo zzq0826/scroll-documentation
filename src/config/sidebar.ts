@@ -377,10 +377,10 @@ export const getSidebar = () => {
             title: t("sidebar.sdk.proofGeneration"),
             url: formatUrl("sdk/technical-stack/proof-generation"),
           },
-          {
-            title: t("sidebar.sdk.integrations"),
-            url: formatUrl("sdk/technical-stack/integrations"),
-          },
+          // {
+          //   title: t("sidebar.sdk.integrations"),
+          //   url: formatUrl("sdk/technical-stack/integrations"),
+          // },
         ],
       },
       {
