@@ -152,6 +152,10 @@ minikube config set memory 8192
 
 Next, we start minikube.
 
+<Aside title="Docker Memory Resource Warning">
+You may encounter a warning indicating a memory limit of 7937MB in your Docker Desktop settings. To resolve this, simply increase the memory allocation to the suggested value.
+</Aside>
+
 <TabsContent sharedStore="os" client:visible>
 <Fragment slot="tab.1">macOS</Fragment>
 <Fragment slot="tab.2">Ubuntu</Fragment>
@@ -208,7 +212,7 @@ then, set it as a env var and run: `echo $ghcr_pat | docker login ghcr.io -u [gi
 
 1. **Bootstrap**
 
-    Now we'll install Helm chart dependencies, generate additional config files for our services, and create our `genesis.json` file.
+    Now we'll install Helm chart dependencies, generate additional config files for our services, and create our `genesis.yaml` file.
 
     ```bash
     make bootstrap
