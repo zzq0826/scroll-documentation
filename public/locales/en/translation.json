@@ -171,6 +171,7 @@
       "customizingSdkComponents": "Customizing SDK Components",
       "awsDeployment": "AWS Deployment",
       "operation": "Operating a Chain",
+      "contractsVerification": "Contracts Verification",
       "gasAndFees": "Gas & Fee Management",
       "monitoring": "Monitoring",
       "security": "Security and Recovery",

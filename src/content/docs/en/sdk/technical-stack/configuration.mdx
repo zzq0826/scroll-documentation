@@ -179,6 +179,21 @@ Contained in the `[contracts.overrides]` section.
 | L2_WETH | Override address for the L2 WETH contract. | `0x5300000000000000000000000000000000000004` |
 | L2_TX_FEE_VAULT | Override address for the L2 transaction fee vault contract. | `0x5300000000000000000000000000000000000005` |
 
+### Contracts Verification
+
+Contained in the `[contracts.verification]` section.
+
+| Config Variable | Description | Default Value |
+|-----------------|-------------|---------------|
+| VERIFIER_TYPE_L1 | Verifier type for the L1 contracts. supports `blockscout`, `etherscan` and `sourcify`. | `blockscout` |
+| VERIFIER_TYPE_L2 | Verifier type for the L2 contracts. supports `blockscout`, `etherscan` and `sourcify`. | `blockscout` |
+| EXPLORER_URI_L1 | Homepage URL of L1 explorer. | `http://l1-explorer.scrollsdk` |
+| EXPLORER_URI_L2 | Homepage URL of L2 explorer. | `http://blockscout.scrollsdk` |
+| RPC_URI_L1 | RPC URL of L1 network. | `http://l1-devnet.scrollsdk` |
+| RPC_URI_L2 | RPC URL of L1 network. | `http://l1-devnet.scrollsdk` |
+| EXPLORER_API_KEY_L1 | Explorer API key for L1 contracts verification. Leave it blank if verifier type is `blockscout`. |  |
+| EXPLORER_API_KEY_L2 | Explorer API key for L2 contracts verification. Leave it blank if verifier type is `blockscout`. |  |
+
 ### Coordinator
 
 Contained in the `[coordinator]` section.
