@@ -412,6 +412,10 @@ export const getSidebar = () => {
         section: t("sidebar.sdk.operation"),
         contents: [
           {
+            title: t("sidebar.sdk.contractsVerification"),
+            url: formatUrl("sdk/operation/contracts-verification"),
+          },
+          {
             title: t("sidebar.sdk.gasAndFees"),
             url: formatUrl("sdk/operation/gas-and-fees"),
           },
