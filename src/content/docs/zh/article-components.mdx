@@ -150,15 +150,3 @@ Astro helps you build faster websites with “Islands Architecture”.
 </MarkmapView>
 
 ### Mermaid
-
-```mermaid
-stateDiagram
-    Step --> StepState
-    Step --> CellManager
-    ConstraintBuilder --> CellManager
-    CellManager --> ProofSystem(Halo2)
-    StepState --> ExecutionState
-    StepState --> step_context
-    ExecutionState --> ConstraintBuilder
-    step_context --> ConstraintBuilder
-```
