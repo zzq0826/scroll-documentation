@@ -12,5 +12,13 @@
       "destination": "any-api/api-reference",
       "statusCode": 301
     }
-  ]
+  ],
+  {
+  "build": {
+    "env": {
+        "PLAYWRIGHT_BROWSERS_PATH": "0"
+      },
+      "installCommand": "npm install && npx playwright install --with-deps chromium"
+    }
+  }
 }
