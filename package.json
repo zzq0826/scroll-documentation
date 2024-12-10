@@ -19,7 +19,7 @@
     "lint-ts:fix": "eslint --ext ts .",
     "lint-solc": "solhint 'public/samples/**/*.sol'",
     "prepare": "husky install",
-    "setup": "npx playwright install"
+    "setup": "npx playwright install --with-deps chromium"
   },
   "dependencies": {
     "@algolia/client-search": "^4.14.2",
