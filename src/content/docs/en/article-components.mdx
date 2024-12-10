@@ -275,3 +275,18 @@ Make sure that your consuming contracts are funded with enough LINK tokens to co
 ### RPC Table
 
 <RPCTable />
+
+<span class="mermaid-diagram" client:only>
+
+```mermaid
+stateDiagram
+    Step --> StepState
+    Step --> CellManager
+    ConstraintBuilder --> CellManager
+    CellManager --> ProofSystem(Halo2)
+    StepState --> ExecutionState
+    StepState --> step_context
+    ExecutionState --> ConstraintBuilder
+    step_context --> ConstraintBuilder
+```
+</span> 
