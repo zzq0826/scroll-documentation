@@ -13,6 +13,9 @@
       "statusCode": 301
     }
   ],
+    "env": {
+    "PLAYWRIGHT_BROWSERS_PATH": "0"
+  },
   "build": {
     "env": {
         "PLAYWRIGHT_BROWSERS_PATH": "0"
