@@ -13,6 +13,7 @@ import rehypeMermaid from "rehype-mermaidjs"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import AutoImport from "astro-auto-import"
+import vercel from "@astrojs/vercel/serverless"
 
 import sitemap from "@astrojs/sitemap"
 
@@ -107,5 +108,7 @@ export default defineConfig({
     ],
     syntaxHighlight: "prism",
     extendDefaultPlugins: true,
+    output: "hybrid",
+    adapter: vercel(),
   },
 })

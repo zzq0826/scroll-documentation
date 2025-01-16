@@ -22,6 +22,7 @@
     "setup": "npx playwright install"
   },
   "dependencies": {
+    "@astrojs/vercel": "^7.8.0",
     "@algolia/client-search": "^4.14.2",
     "@astrojs/partytown": "^2.0.4",
     "@astrojs/prism": "^3.0.0",
