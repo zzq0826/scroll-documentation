@@ -16,6 +16,16 @@ export function useI18next(lang?: string) {
     }
 
     const init = async () => {
+      // Check if already ready (from HeadCommon script)
+      if (typeof window !== "undefined" && (window as any).__i18nextReady) {
+        // Still need to ensure language is correct
+        if (lang && i18next.language !== lang) {
+          await i18next.changeLanguage(lang)
+        }
+        checkReady()
+        return
+      }
+
       // Wait for i18next to be initialized
       if (!i18next.isInitialized) {
         await new Promise((resolve) => {
@@ -36,17 +46,13 @@ export function useI18next(lang?: string) {
         await i18next.changeLanguage(lang)
       }
 
-      // Check if already ready (from HeadCommon script)
-      if (typeof window !== "undefined" && (window as any).__i18nextReady) {
-        setIsReady(true)
-        return
-      }
-
-      // Listen for ready event or check immediately
+      // Listen for ready event
       if (typeof window !== "undefined") {
         window.addEventListener("i18next:ready", checkReady)
       }
-      checkReady() // Check immediately
+
+      // Check immediately
+      checkReady()
     }
 
     init()
