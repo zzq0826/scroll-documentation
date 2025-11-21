@@ -3,7 +3,7 @@ import { useState, useEffect } from "preact/hooks"
 import MailchimpSubscribe from "react-mailchimp-subscribe"
 import SubscribeSvg from "~/assets/svgs/footer/subscribe.svg?react"
 import { clsx } from "~/lib"
-import i18next, { changeLanguage, t } from "i18next"
+import { useI18next } from "~/hooks/useI18next"
 
 import EmailInput from "./EmailInput.tsx"
 import styles from "./Subscribe.module.css"
@@ -19,8 +19,7 @@ export default function Subscribe(props) {
   const [email, setEmail] = useState("")
   const [customMessage, setCustomMessage] = useState("")
   const [emailValid, setEmailValid] = useState(false)
-
-  i18next.changeLanguage(props.lang)
+  const { isReady, t } = useI18next(props.lang)
 
   useEffect(() => {
     setCustomMessage("")
@@ -50,9 +49,9 @@ export default function Subscribe(props) {
         </span>
 
         <div className={styles.copyBox}>
-          <div className={styles.subscribeTitle}>{ t("landing.NewsletterCTA.title") }</div>
+          <div className={styles.subscribeTitle}>{isReady ? t("landing.NewsletterCTA.title") : ""}</div>
           <div className={styles.subscribeText}>
-          { t("landing.NewsletterCTA.text") }
+            {isReady ? t("landing.NewsletterCTA.text") : ""}
           </div>
         </div>
         <MailchimpSubscribe
@@ -65,7 +64,7 @@ export default function Subscribe(props) {
                 onChange={handleChangeEmail}
                 onClick={() => handleSubmit(subscribe)}
                 onEnter={() => handleSubmit(subscribe)}
-                placeholder= { t("landing.NewsletterCTA.placeholder") }
+                placeholder={isReady ? t("landing.NewsletterCTA.placeholder") : ""}
                 end={status === "success"}
               />
               {customMessage && <div className={styles.errorMessage}>{customMessage}</div>}

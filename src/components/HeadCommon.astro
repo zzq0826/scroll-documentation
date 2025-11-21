@@ -20,6 +20,52 @@ import "../styles/design-system/global-styles.css"
 <!-- Scrollable a11y code helper -->
 <script src="/make-scrollable-code-focusable.js" is:inline></script>
 
+<!-- Ensure i18next is initialized before client components load -->
+<script is:inline>
+  // Initialize i18next early to ensure translations are ready for client components
+  ;(function () {
+    if (typeof window === "undefined") return
+
+    // Get language from HTML lang attribute or URL path
+    const getLanguage = () => {
+      const htmlLang = document.documentElement.lang
+      if (htmlLang) {
+        // Extract language code (e.g., "en-us" -> "en")
+        return htmlLang.split("-")[0]
+      }
+      const pathLang = window.location.pathname.split("/")[1]
+      if (["en", "es", "zh", "tr"].includes(pathLang)) {
+        return pathLang
+      }
+      return "en"
+    }
+
+    // Wait for i18next to be available and initialize
+    const initI18next = () => {
+      if (window.i18next) {
+        const lang = getLanguage()
+        // Ensure language is set and wait for initialization
+        if (window.i18next.language !== lang) {
+          window.i18next.changeLanguage(lang)
+        }
+        // Mark i18next as ready
+        window.__i18nextReady = true
+        window.dispatchEvent(new CustomEvent("i18next:ready"))
+      } else {
+        // Retry if i18next is not loaded yet
+        setTimeout(initI18next, 10)
+      }
+    }
+
+    // Start initialization when DOM is ready
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initI18next)
+    } else {
+      initI18next()
+    }
+  })()
+</script>
+
 <!-- Mermaid.js for client-side rendering -->
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"
